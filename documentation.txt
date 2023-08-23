@@ -1,0 +1,175 @@
+Python Code for Model Prediction
+
+This Python code demonstrates how to load a pre-trained 
+machine learning model, prepare input data, make predictions, and interpret the prediction results.
+
+# Import required libraries
+import numpy as np
+import pickle
+
+# Load the pre-trained machine learning model from the real directory
+loaded_model = pickle.load(open('C:/Users/512GB/OneDrive/Documents/Major_Files/Projects/Players_Performance/performance_streamlit/performance_model.sav', 'rb'))
+
+# Input data for prediction (the random numbers are like values used to predict the model
+input_data = (
+    73.0, 525000.0, 22000.0, 34.0, 180.0, 75.0, 1.0, 16.0, 2021.0, 3.0, 1.0, 3600000.0,
+    69.0, 54.0, 58.0, 64.0, 56.0, 66.0, 12.0, 11.0, 13.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0
+)
+
+# Convert input data to a numpy array
+input_data_as_numpy_array = np.asarray(input_data)
+
+# Reshape the array as we are predicting for one instance
+input_data_reshaped = input_data_as_numpy_array.reshape(1, -1)
+
+# Make a prediction using the loaded model
+prediction = loaded_model.predict(input_data_reshaped)
+
+# Display the prediction result
+if prediction[0] == 0:
+    print('Prediction: Low Performance')
+else:
+    print('Prediction: High Performance')
+
+
+Player Performance Prediction Web App
+
+This Python code demonstrates how to create a simple web application using Streamlit to predict player performance based on input data. 
+Users can input various features, and the app will provide a prediction whether the player's performance is "Low Performance" or "High Performance."
+
+
+
+import numpy as np
+import pickle
+import streamlit as st
+
+#load the model
+loaded_model= pickle.load(open('C:/Users/512GB/OneDrive/Documents/Major_Files/Projects/Players_Performance/performance_streamlit/performance_model.sav','rb'))
+
+
+
+# creating a function for Prediction
+
+def performance_prediction(input_data):
+    
+
+     #changing the input_data to numpy array
+    input_data_as_numpy_array = np.asarray(input_data)
+
+# reshape the array as we are predicting for one instance
+    input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+
+    prediction = loaded_model.predict(input_data_reshaped)
+    print(prediction)
+
+    if (prediction[0] ==0):
+        return 'Low Performance'
+    else:
+        return 'High Performance'
+    
+
+def main():
+    
+    
+    # giving a title
+    st.title('Player_Performance Prediction Web App')
+    
+    
+    # getting the input data from the user
+    potential= st.text_input('potential')
+    value_eur = st.text_input('value_eur')
+    wage_eur   = st.text_input('wage_eur')
+    age    = st.text_input('age')
+    height_cm = st.text_input('height_cm')
+    weight_kg = st.text_input('weight_kg')
+    league_level= st.text_input('league_level')
+    club_jersey_number  = st.text_input('club_jersey_number')
+    club_contract_valid_until= st.text_input('club_contract_valid_until')
+    weak_foot      = st.text_input('weak_foot')
+    skill_moves = st.text_input('skill_moves')
+    release_clause_eur = st.text_input('release_clause_eur')
+    pace      = st.text_input('pace')
+    shooting = st.text_input('shooting')
+    passing  = st.text_input('passing')
+    dribbling = st.text_input('dribbling')
+    defending    = st.text_input('defending')
+    physic   = st.text_input('physic')
+    attacking_crossing = st.text_input('attacking_crossing')
+    attacking_finishing  = st.text_input('attacking_finishing')
+    attacking_heading_accuracy = st.text_input('attacking_heading_accuracy')
+    preferred_foot_Right = st.text_input('preferred_foot_Right')
+    work_rate_High_Low   = st.text_input('work_rate_High_Low')
+    work_rate_High_Medium= st.text_input('work_rate_High_Medium')
+    work_rate_Low_High = st.text_input('work_rate_Low_High')
+    work_rate_Low_Low = st.text_input('work_rate_Low_Low')
+    work_rate_Low_Medium = st.text_input('work_rate_Low_Medium')
+    work_rate_Medium_High  = st.text_input('work_rate_Medium_High')
+    work_rate_Medium_Low = st.text_input('work_rate_Medium_Low')
+    work_rate_Medium_Medium = st.text_input('work_rate_Medium_Medium')
+    
+    
+    
+   
+    
+    
+    # code for Prediction
+    performance = ''
+    
+    # creating a button for Prediction
+    
+    if st.button('players Test Result'):
+        performance = performance_prediction([ work_rate_High_Low,work_rate_High_Medium,
+            work_rate_Low_High,work_rate_Low_Low,work_rate_Low_Medium,
+work_rate_Medium_High,work_rate_Medium_Low,work_rate_Medium_Medium,
+preferred_foot_Right,potential,value_eur,wage_eur,
+age,height_cm,weight_kg,league_level,club_jersey_number,club_contract_valid_until,weak_foot,skill_moves,
+release_clause_eur,pace,shooting,passing,dribbling,defending,
+physic,attacking_crossing,attacking_finishing,attacking_heading_accuracy])
+        
+    st.success(performance)
+
+
+if __name__ == '__main__':
+    main()
+
+
+The explanation of the key terms in the web app codes above are explained below:
+Explanation and Documentation:
+
+Import necessary libraries: numpy for array manipulation, pickle to load the model, and streamlit for creating the web app interface.
+
+Load the pre-trained model using pickle.
+
+Define the performance_prediction function that takes input data, reshapes it, predicts performance using the loaded model, and returns the prediction result.
+
+Define the main function to create the web app interface.
+
+Set the app title using st.title.
+
+Create input fields using st.text_input for user input of player features like potential, value, wage, etc.
+
+Use a button (st.button) to trigger the prediction when clicked.
+
+Inside the prediction button block, collect input features in a list and pass them to the performance_prediction function to get the prediction result.
+
+Display the prediction result using st.success.
+
+Run the main function when the script is executed.
+
+#very important things to note:
+
+I created a virtual environment for this project in the directory which i called virtualenv
+every nneded library for the loading of the pickle till the working functionalities of the web app was installed in that virtualenv using the cmd
+I ensured have the same version of scikit learn both on my jupyter notebook and on my environment and the version is scikit-learn 1.3.0
+every installed library are in the requirements.txt file
+you can the features are float numbers data type
+
+
+1- make sure you create a virtual environment in that directory as specified above on the command prompt (chdir "path to folder')
+2-activate that virtual environment (nameofvirtualenv\Scripts\activate.bat)
+3- install all necessary libraries in it (pip install -r requirements.txt)
+4- run the streamlit web app (streamlit run "path to the files")
+5- then it will open a web interface where you can put values to predict the model"
+
+
+
